@@ -1,21 +1,17 @@
 `timescale 1ns/1ps
-module multiply_tb();
+module icesugar_gls();
 
   localparam lp_width = 4;
   logic [lp_width - 1:0] a_i, b_i;
   logic [0:0] a_signed_i, b_signed_i;
   logic [(2 * lp_width) - 1:0] p_o;
 
-`ifdef GLS
-  multiply #() m_inst(
-`else
-  multiply #(.p_width(lp_width)) m_inst(
-`endif
+  top #() t_inst(
     .a_i(a_i),
     .b_i(b_i),
     .a_signed_i(a_signed_i),
     .b_signed_i(b_signed_i),
-    .product_o(p_o)
+    .p_o(p_o)
   );
 
   logic signed [lp_width:0] a, b;

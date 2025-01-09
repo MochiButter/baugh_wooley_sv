@@ -6,4 +6,4 @@ prep
 opt -full
 stat
 
-write_verilog -noexpr -noattr -simple-lhs build/synth/synth.v
+write_verilog -noexpr -noattr -simple-lhs build/synth/generic_synth.v

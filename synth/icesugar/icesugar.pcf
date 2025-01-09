@@ -22,12 +22,5 @@ set_io b_i[2]   43
 set_io b_i[3]   45
 
 # PMOD 3
-set_io P3_1     34 
-set_io P3_2     31
-set_io P3_3     27
-set_io P3_4     25
-set_io P3_9     23
-set_io P3_10    26
-set_io P3_11    28
-set_io P3_12    32
-
+set_io a_signed_i 34 
+set_io b_signed_i 31
