@@ -1,0 +1,33 @@
+# For the iCESugar Board (iCE40UP5K-QFN48)
+# From https://github.com/wuxx/icesugar/blob/master/src/common/io.pcf
+
+# PMOD 1
+set_io p_o[0]   10
+set_io p_o[1]   6
+set_io p_o[2]   3
+set_io p_o[3]   48
+set_io p_o[4]   47
+set_io p_o[5]   2
+set_io p_o[6]   4
+set_io p_o[7]   9
+
+# PMOD 2
+set_io a_i[0]   46
+set_io a_i[1]   44
+set_io a_i[2]   42
+set_io a_i[3]   37
+set_io b_i[0]   36 
+set_io b_i[1]   38
+set_io b_i[2]   43
+set_io b_i[3]   45
+
+# PMOD 3
+set_io P3_1     34 
+set_io P3_2     31
+set_io P3_3     27
+set_io P3_4     25
+set_io P3_9     23
+set_io P3_10    26
+set_io P3_11    28
+set_io P3_12    32
+
