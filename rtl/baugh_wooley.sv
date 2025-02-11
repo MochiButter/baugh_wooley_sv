@@ -1,9 +1,14 @@
+`timescale 1ns/1ps
 module baugh_wooley
   #(parameter p_width = 8)
   (input signed [p_width - 1:0] a_i
   ,input signed [p_width - 1:0] b_i
   ,output signed [(2 * p_width) - 1:0] product_o
   );
+
+`ifdef FORMAL
+  assert property (product_o == a_i * b_i);
+`endif
 
   /* n * n multiplier based on the Baugh Wooley design
    * 

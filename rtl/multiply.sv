@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module multiply 
   #(parameter p_width = 4)
   (input [p_width - 1:0] a_i

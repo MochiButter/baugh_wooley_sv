@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module full_add
   (input [0:0] a_i
   ,input [0:0] b_i

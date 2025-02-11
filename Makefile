@@ -1,6 +1,6 @@
 YOSYS_DATDIR := $(shell yosys-config --datdir)
 
-.PHONY: bitstream include sim lint gls program clean
+.PHONY: bitstream include sim formal lint gls icesugar_gls program clean
 
 include synth/icesugar/fpga.mk
 SIM_MK ?= def
@@ -23,50 +23,52 @@ endif
 sim: include build/sim/$(SIM_TOP)/verilator.vcd build/sim/$(SIM_TOP)/iverilog.vcd
 
 build/sim/$(SIM_TOP)/verilator.vcd: $(SIM_TB) $(SIM_SRC)
-	mkdir -p build/sim/$(SIM_TOP)
+	@mkdir -p build/sim/$(SIM_TOP)/verilator
 	verilator lint/verilator.vlt -Mdir build/sim/$(SIM_TOP)/verilator $^ -f tb/tb.f --binary -Wno-fatal --top $(SIM_TOP)
 	cd build/sim/$(SIM_TOP); \
 	verilator/V$(SIM_TOP) +verilator+rand+reset+2
 
 build/sim/$(SIM_TOP)/iverilog.vcd: $(SIM_TB) $(SIM_SRC)
-	mkdir -p build/sim/$(SIM_TOP)/iverilog
+	@mkdir -p build/sim/$(SIM_TOP)/iverilog
 	iverilog -o build/sim/$(SIM_TOP)/iverilog/tb $^ -g2005-sv
 	cd build/sim/$(SIM_TOP); \
 	vvp iverilog/tb -fst
 
-lint: $(RTL_SRC)
+formal: build/formal/PASS
+
+build/formal/PASS: $(RTL_SRC)
+	sby -d build/formal -f formal.sby
+
+lint: $(wildcard rtl/*.sv) $(RTL_SRC)
 	verilator lint/verilator.vlt --lint-only -top $(RTL_TOP) $^ -Wall
 
 build/synth/rtl.sv2v.v: $(RTL_SRC)
 	@mkdir -p build/synth
 	sv2v $^ -w $@
 
-build/synth/sim.sv2v.v: include $(SIM_SRC)
+build/synth/sim.sv2v.v build/synth/generic_synth.v: $(SIM_SRC)
 	@mkdir -p build/synth
-	sv2v $(SIM_SRC) -w $@
-
-build/synth/generic_synth.v: build/synth/sim.sv2v.v synth/yosys_generic/yosys.tcl
-	@mkdir -p build/synth
+	sv2v $(SIM_SRC) -w build/synth/sim.sv2v.v
 	yosys -p 'tcl synth/yosys_generic/yosys.tcl' -ql build/synth/generic_synth_v.yslog
 
 gls: include build/sim/$(SIM_TOP)_gls/verilator.vcd build/sim/$(SIM_TOP)_gls/iverilog.vcd
 
-build/sim/$(SIM_TOP)_gls/verilator.vcd: $(SIM_TB) build/synth/generic_synth.v $(YOSYS_DATDIR)/simlib.v
-	@mkdir -p build/sim/$(SIM_TOP)_gls
-	verilator lint/verilator.vlt -Mdir build/sim/$(SIM_TOP)_gls/verilator -DGLS $^ -f tb/tb.f --binary -Wno-fatal --top $(SIM_TOP) 
+build/sim/$(SIM_TOP)_gls/verilator.vcd: $(SIM_TB) build/synth/generic_synth.v
+	@mkdir -p build/sim/$(SIM_TOP)_gls/verilator
+	verilator lint/verilator.vlt -Mdir build/sim/$(SIM_TOP)_gls/verilator -DGLS $^ $(YOSYS_DATDIR)/simlib.v -f tb/tb.f --binary -Wno-fatal --top $(SIM_TOP) 
 	cd build/sim/$(SIM_TOP)_gls; \
 	verilator/V$(SIM_TOP) +verilator+rand+reset+2
 
-build/sim/$(SIM_TOP)_gls/iverilog.vcd: $(SIM_TB) build/synth/generic_synth.v $(YOSYS_DATDIR)/simlib.v
+build/sim/$(SIM_TOP)_gls/iverilog.vcd: $(SIM_TB) build/synth/generic_synth.v
 	@mkdir -p build/sim/$(SIM_TOP)_gls/iverilog
-	iverilog -o build/sim/$(SIM_TOP)_gls/iverilog/tb -DGLS $^ -g2005-sv
+	iverilog -o build/sim/$(SIM_TOP)_gls/iverilog/tb -DGLS $^ $(YOSYS_DATDIR)/simlib.v -g2005-sv
 	cd build/sim/$(SIM_TOP)_gls; \
 	vvp iverilog/tb -fst
 
 icesugar_gls: build/sim/icesugar_gls/verilator.vcd build/sim/icesugar_gls/iverilog.vcd
 
 build/sim/icesugar_gls/verilator.vcd: build/synth/ice40_synth.v $(YOSYS_DATDIR)/ice40/cells_sim.v synth/icesugar/icesugar_gls.sv
-	@mkdir -p build/sim/icesugar_gls
+	@mkdir -p build/sim/icesugar_gls/verilator
 	verilator lint/verilator.vlt -Mdir build/sim/icesugar_gls/verilator $^ -DGLS -DNO_ICE40_DEFAULT_ASSIGNMENTS --binary -Wno-fatal -f tb/tb.f --top icesugar_gls 
 	cd build/sim/icesugar_gls; \
 	verilator/Vicesugar_gls +verilator+rand+reset+2
@@ -82,7 +84,7 @@ build/synth/ice40.json build/synth/ice40_synth.v: build/synth/rtl.sv2v.v synth/i
 	yosys -ql build/synth/ice40_synth.yslog -p 'tcl synth/icesugar/icesugar.tcl'
 
 build/synth/ice40.asc: build/synth/ice40.json synth/icesugar/icesugar.pcf
-	nextpnr-ice40 --up5k --package sg48 --json build/synth/ice40.json --pcf synth/icesugar/icesugar.pcf --asc build/synth/ice40.asc
+	nextpnr-ice40 -l build/synth/ice40_pnr.log -q --up5k --package sg48 --json build/synth/ice40.json --pcf synth/icesugar/icesugar.pcf --asc build/synth/ice40.asc
 
 build/synth/ice40.bin: build/synth/ice40.asc
 	icepack $< $@

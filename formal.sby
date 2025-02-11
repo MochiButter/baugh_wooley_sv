@@ -1,0 +1,16 @@
+[options]
+mode bmc
+depth 10
+expect pass
+
+[engines]
+smtbmc yices
+
+[script]
+read_verilog -formal baugh_wooley.sv full_add.sv half_add.sv
+prep -top baugh_wooley
+
+[files]
+rtl/baugh_wooley.sv
+rtl/full_add.sv
+rtl/half_add.sv
