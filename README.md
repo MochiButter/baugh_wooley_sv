@@ -47,11 +47,12 @@ RTL_SRC =	synth/icesugar/top.sv \
 - `RTL_SRC` are the sources needed for synthesis of the top module.
 
 ## Async multiplication
+Comparing only signed multiplication:
+
 Using `assign p_o = a_i * b_i`
-
 ```
 Device utilisation:
-   ICESTORM_LC:      30/   5280     0%
+   ICESTORM_LC:      37/   5280     0%
   ICESTORM_RAM:       0/     30     0%
          SB_IO:      16/     96    16%
          SB_GB:       0/      8     0%
@@ -68,10 +69,10 @@ ICESTORM_LFOSC:       0/      1     0%
 ICESTORM_SPRAM:       0/      4     0%
 ```
 
-Using `multiply #(.p_width(4)) mult_inst ()`
+Using `baugh_wooley #(.p_width(4)) bw_inst ()`
 ```
 Device utilisation:
-   ICESTORM_LC:      36/   5280     0%
+   ICESTORM_LC:      29/   5280     0%
   ICESTORM_RAM:       0/     30     0%
          SB_IO:      16/     96    16%
          SB_GB:       0/      8     0%
@@ -88,7 +89,7 @@ ICESTORM_LFOSC:       0/      1     0%
 ICESTORM_SPRAM:       0/      4     0%
 ```
 
-My design uses 6 more LUTs than yosys' multiply when doing a 4x4 multiplication.
+My design uses 8 less LUTs than yosys' multiply when doing a 4x4 multiplication.
 
 # Acknowledgements
 This project was based on 
