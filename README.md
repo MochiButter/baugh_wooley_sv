@@ -46,6 +46,15 @@ RTL_SRC =	synth/icesugar/top.sv \
 - `RTL_TOP` is the top module for the fpga.
 - `RTL_SRC` are the sources needed for synthesis of the top module.
 
+## Setup
+This project used the 
+[icesugar](https://github.com/wuxx/icesugar)
+fpga board with the 
+[sipeed basic pmod kit](https://wiki.sipeed.com/hardware/en/tang/tang-PMOD/FPGA_PMOD.html),
+connected as pictured:
+![The fpga](fpga.webp)
+
+
 ## Async multiplication
 Comparing only signed multiplication:
 

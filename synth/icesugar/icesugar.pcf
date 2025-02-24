@@ -2,25 +2,25 @@
 # From https://github.com/wuxx/icesugar/blob/master/src/common/io.pcf
 
 # PMOD 1
-set_io p_o[0]   10
-set_io p_o[1]   6
-set_io p_o[2]   3
-set_io p_o[3]   48
-set_io p_o[4]   47
-set_io p_o[5]   2
-set_io p_o[6]   4
-set_io p_o[7]   9
+set_io led_no[0]   47
+set_io led_no[1]   48
+set_io led_no[2]   2
+set_io led_no[3]   3
+set_io led_no[4]   4
+set_io led_no[5]   6
+set_io led_no[6]   9
+set_io led_no[7]   10
 
 # PMOD 2
-set_io a_i[0]   46
-set_io a_i[1]   44
-set_io a_i[2]   42
-set_io a_i[3]   37
-set_io b_i[0]   36 
-set_io b_i[1]   38
-set_io b_i[2]   43
-set_io b_i[3]   45
+set_io sw_ni[0]   37
+set_io sw_ni[1]   42
+set_io sw_ni[2]   43
+set_io sw_ni[3]   45
+set_io btn_ni[0]   36
+set_io btn_ni[1]   38
+set_io btn_ni[2]   44
+set_io btn_ni[3]   46
 
 # PMOD 3
-set_io a_signed_i 34 
-set_io b_signed_i 31
+#set_io a_signed_i 34 
+#set_io b_signed_i 31
