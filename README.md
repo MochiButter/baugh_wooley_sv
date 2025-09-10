@@ -1,4 +1,7 @@
 # Baugh Wooley async signed multiplier
+A SystemVerilog parametrized high-speed multiplier module.
+Verification includes a simple testbench, a UVM testbench, and formal verification.
+
 This project was based on 
 [verilog_template](https://github.com/sifferman/verilog_template/).
 
@@ -9,6 +12,9 @@ Replace `SIM_MK` with the testbench to run.
 
 To run gate level simulation
 `make gls SIM_MK=multiply`
+
+To run the formal verification:
+`make formal`
 
 Only for ice40-up5k sg48: to generate the bitstream, run:
 `make bitstream`
@@ -45,6 +51,9 @@ RTL_SRC =	synth/icesugar/top.sv \
 
 - `RTL_TOP` is the top module for the fpga.
 - `RTL_SRC` are the sources needed for synthesis of the top module.
+
+## UVM
+To run the UVM test, cd to `tb/multiply_uvm` and follow the instructions there.
 
 ## Setup
 This project used the 
@@ -117,3 +126,6 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
+
+The uvm portion was based on
+[verilator-verification](https://github.com/antmicro/verilator-verification).
