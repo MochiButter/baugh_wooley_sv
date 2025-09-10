@@ -1,0 +1,3 @@
+[submodule "tb/multiply_uvm/uvm-verilator"]
+	path = tb/multiply_uvm/uvm-1.2
+	url = https://github.com/antmicro/uvm-verilator.git
