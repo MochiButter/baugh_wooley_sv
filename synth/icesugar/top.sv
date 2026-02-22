@@ -2,8 +2,6 @@
 module top
   (input [3:0] sw_ni
   ,input [3:0] btn_ni
-  //,input [0:0] a_signed_i
-  //,input [0:0] b_signed_i
   ,output [7:0] led_no); 
 
   wire [3:0] sw_inv = ~sw_ni;

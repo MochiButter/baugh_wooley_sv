@@ -32,7 +32,7 @@ module baugh_wooley_tb();
         if(p_o != (a_i * b_i)) begin
           $display("Bad output at a_i: %d b_i: %d = %d", a_i, b_i, p_o);
           $display("SIM FAILED");
-          $finish();
+          $fatal();
         end
       end
     end

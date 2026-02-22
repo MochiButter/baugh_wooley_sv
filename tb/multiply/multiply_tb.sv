@@ -54,7 +54,7 @@ module multiply_tb();
             $display("%b != %b", p[(2 * lp_width) - 1:0], p_o);
             $display("a_i: %b b_i: %b p_o: %b", a_i, b_i, p_o);
             $display("\033[0;31mSIM FAILED\033[0m");
-            $finish();
+            $fatal();
           end
         end
       end

@@ -55,7 +55,7 @@ gls: include build/sim/$(SIM_TOP)_gls/verilator.vcd build/sim/$(SIM_TOP)_gls/ive
 
 build/sim/$(SIM_TOP)_gls/verilator.vcd: $(SIM_TB) build/synth/generic_synth.v
 	@mkdir -p build/sim/$(SIM_TOP)_gls/verilator
-	verilator lint/verilator.vlt -Mdir build/sim/$(SIM_TOP)_gls/verilator -DGLS $^ $(YOSYS_DATDIR)/simlib.v -f tb/tb.f --binary -Wno-fatal --top $(SIM_TOP) 
+	verilator lint/verilator.vlt -Mdir build/sim/$(SIM_TOP)_gls/verilator -DGLS -DSIMLIB_VERILATOR_COMPAT $^ $(YOSYS_DATDIR)/simlib.v -f tb/tb.f --binary -Wno-fatal --top $(SIM_TOP)
 	cd build/sim/$(SIM_TOP)_gls; \
 	verilator/V$(SIM_TOP) +verilator+rand+reset+2
 
